@@ -20,6 +20,7 @@
 package org.xnio;
 
 import junit.framework.TestCase;
+import org.junit.Assert;
 
 import static org.xnio.Bits.*;
 
@@ -221,5 +222,17 @@ public final class BitsTestCase extends TestCase {
         assertEquals(0x00050403, mediumFromBytesLE(bytes, 2));
         assertEquals(0x060708090a0b0c0dL, longFromBytesBE(bytes, 5));
         assertEquals(0x0d0c0b0a09080706L, longFromBytesLE(bytes, 5));
+    }
+    public void testPackInts() {
+        final int first = 0xA1_29_1B_2F;
+        final int second = 0xFF_1A_FC_62;
+        final long result = packInts(first, second);
+        Assert.assertEquals(0xA1_29_1B_2F_FF_1A_FC_62L, result);
+    }
+
+    public void testUnpackInts() {
+        final long ints = 0xA1_29_1B_2F_FF_1A_FC_62L;
+        Assert.assertEquals(0xA1_29_1B_2F, unpackFirstInt(ints));
+        Assert.assertEquals(0xFF_1A_FC_62, unpackSecondInt(ints));
     }
 }
