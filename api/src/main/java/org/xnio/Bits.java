@@ -84,6 +84,30 @@ public final class Bits {
     }
 
     /**
+     * @return {@code first} from {@code ints} obtained by {@link #packInts(int, int)}.
+     */
+    public static int unpackFirstInt(long ints) {
+        return (int) (ints >> 32);
+    }
+
+    /**
+     * @return {@code second} from {@code ints} obtained by {@link #packInts(int, int)}.
+     */
+    public static int unpackSecondInt(long ints) {
+        return (int) ints;
+    }
+
+
+    /**
+     * It packs {@code first} and {@code second} as a single {@code long} value.
+     */
+    public static long packInts(int first, int second) {
+        final long leftMask = ((long) first) << 32;
+        final long rightMask = second & 0xFF_FF_FF_FFL;
+        return leftMask | rightMask;
+    }
+
+    /**
      * Determine if any of the {@code flags} in the given {@code var} are clear.
      *
      * @param var the value to test
